@@ -1,0 +1,12 @@
+subfinder --host _target_ --silent > _output_/_target_-subfinder.txt
+assetfinder --subs-only _target_ > _output_/_target_-assetfinder.txt
+echo _target_ | asnmap --silent > _output_/_target_-asnmap.asn
+curl -s https://crt.sh/\?q\=\%._target_\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u > _output_/_target_-crt.txt
+curl -s "https://web.archive.org/cdx/search/cdx?url=*._target_/*&output=text&fl=original&collapse=urlkey" | sed -E 's|https?://||' | cut -d'/' -f1 | cut -d':' -f1 | sort -u > _output_/_target_-webarchieve.txt
+curl -s "https://www.virustotal.com/vtapi/v2/domain/report?apikey=yourapitoken&domain=_target_" | grep -oP '\b(?:[\w-]+\.)+_target_\b' | sort -u > _output_/_target_-virustotal.txt
+amass enum -passive -d _target_ > _output_/_target_-amass-passive.txt
+amass enum -active -d _target_ >  _output_/_target_-amass-active.amassactive
+waymore -i _target_ -mode U > _output_/_target_-endpoints.endpoint && cat _output_/_target_-endpoints.endpoint | grep -oP '\b(?:[\w-]+\.)+_target_\b' | sort -u > _output_/_target_-waymore.txt
+chaos -d _target_ --silent > _output_/_target_-choas.txt
+puredns bruteforce /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt _target_ -r /home/astute/massdns/lists/resolvers.txt -q > _output_/_target_-puredns.txt
+github-subdomains -d _target_ -t yourgithubtoken -q -o _output_/_target_-github.txt
