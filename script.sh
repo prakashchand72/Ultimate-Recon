@@ -12,11 +12,11 @@ interlace -t "$domain" -o "$output" -cL cmd.script --silent
 echo "[✓] Cooking finished for $domain."
 
 echo "[✓] Combining all subdomains for $domain."
-cat "$output"/*.txt | sort -u > subdomain.txt
+cat "$output"/*.txt | sort -u > $domain-subdomain.txt
 
 echo "[+] Resolving and enriching..."
-cat subdomain.txt | alterx -enrich --silent | dnsx --silent > dnsx.txt
+cat subdomain.txt | alterx -enrich --silent | dnsx --silent > $domaoin-dnsx.txt
 
 echo "[+] Port scanning with Naabu..."
-naabu -list dnsx.txt -silent > naabu.txt
-echo "[✓] Done. Happy Hacking!!"
+naabu -list dnsx.txt -silent > $domain-naabu.txt
+echo "[✓] Done. Happy Hacking!!
